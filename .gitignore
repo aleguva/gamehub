@@ -1,0 +1,13 @@
+# Maven / compilados
+target/
+build/
+*.class
+
+# IDEs
+.idea/
+nbproject/private/
+nb-configuration.xml
+nbactions.xml
+
+# Sistema
+.DS_Store
