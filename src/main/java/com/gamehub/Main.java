@@ -8,7 +8,7 @@ package com.gamehub;
  *
  * @author Alejandro Guzman Vasquez
  */
-public class Gamehub {
+public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
