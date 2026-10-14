@@ -1,2 +1,0 @@
-1:Mario Bross:NES:RPG:10.0:false
-2:Final Fantasy:Play Station 1:Aventura:200.0:true
