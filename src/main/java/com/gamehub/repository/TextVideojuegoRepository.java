@@ -58,31 +58,31 @@ public class TextVideojuegoRepository implements VideojuegoRepository {
     }
 
     @Override
-    public List<Videojuego> cargar() throws GameHubFileException {
-        File fichero = new File(FILE_PATH);
-        if (!fichero.exists()) {
-            throw new GameHubFileException("No se pudo guardar el fichero " + fichero.getAbsolutePath());
-        }
-//        videojuegos = una lista nueva y vacía          ← new ArrayList<>()
-        ArrayList<Videojuego> videojuegos = new ArrayList<>();
-//    try-with-resources: abrir BufferedReader sobre FileReader(fichero, UTF_8)
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH, StandardCharsets.UTF_8)) {
-            while (br.readLine() =! null) {
-            
-        }
-        } catch (IOException ex) {
-                System.out.println("Error: " + ex);
-                }
-//        linea = leer línea
-//        mientras linea no sea null:                ← null = fin del fichero
-//            si la línea no está en blanco:         ← linea.isBlank()
-//                añadir deLinea(linea) a videojuegos
-//            linea = leer siguiente línea
-//    si salta IOException:
-//        lanzar GameHubFileException("No se pudo leer ...", causa)
-//
-//    devolver videojuegos
+public List<Videojuego> cargar() throws GameHubFileException {
+    File fichero = new File(FILE_PATH);
+
+    if (!fichero.exists()) {
+        throw new GameHubFileException("No existe el fichero " + fichero.getAbsolutePath());
     }
+
+    List<Videojuego> videojuegos = new ArrayList<>();
+
+    try (BufferedReader br = new BufferedReader(
+            new FileReader(fichero, StandardCharsets.UTF_8))) {
+
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            if (!linea.isBlank()) {
+                videojuegos.add(deLinea(linea));
+            }
+        }
+
+    } catch (IOException ex) {
+        throw new GameHubFileException("No se pudo leer el fichero " + fichero.getAbsolutePath(), ex);
+    }
+
+    return videojuegos;
+}
 
     @Override
     public void guardar(List<Videojuego> videojuegos) throws GameHubFileException {
