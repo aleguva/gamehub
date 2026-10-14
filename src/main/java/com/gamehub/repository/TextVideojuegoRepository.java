@@ -24,6 +24,7 @@ public class TextVideojuegoRepository implements VideojuegoRepository {
 
     private static final String FILE_PATH = "data/videojuegos.txt";
     private static final String SEPARATOR = ":";
+    private static final int NUM_CAMPOS = 6;
 
     private String aLinea(Videojuego videojuego) {
         int id = videojuego.getId();
@@ -43,7 +44,7 @@ public class TextVideojuegoRepository implements VideojuegoRepository {
     private Videojuego deLinea(String linea) throws GameHubFileException {
         String[] trozos = linea.split(SEPARATOR);
 
-        if (trozos.length != 6) {
+        if (trozos.length != NUM_CAMPOS) {
             throw new GameHubFileException("Formato incorrecto: " + linea);
         }
 
