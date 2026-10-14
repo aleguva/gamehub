@@ -8,6 +8,7 @@ build/
 nbproject/private/
 nb-configuration.xml
 nbactions.xml
+.vscode/
 
 # Sistema
 .DS_Store
