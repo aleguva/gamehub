@@ -48,42 +48,47 @@ public class TextVideojuegoRepository implements VideojuegoRepository {
             throw new GameHubFileException("Formato incorrecto: " + linea);
         }
 
-        int id = Integer.parseInt(trozos[0]);
-        String titulo = trozos[1];
-        String plataforma = trozos[2];
-        String genero = trozos[3];
-        double horasJugadas = Double.parseDouble(trozos[4]);
-        boolean finalizado = Boolean.parseBoolean(trozos[5]);
+        try {
+            int id = Integer.parseInt(trozos[0]);
+            double horasJugadas = Double.parseDouble(trozos[4]);
+            boolean finalizado = Boolean.parseBoolean(trozos[5]);
+            String titulo = trozos[1];
+            String plataforma = trozos[2];
+            String genero = trozos[3];
+            return new Videojuego(id, titulo, plataforma, genero, horasJugadas, finalizado);
 
-        return new Videojuego(id, titulo, plataforma, genero, horasJugadas, finalizado);
+        } catch (NumberFormatException e) {
+            throw new GameHubFileException("Dato numérico no válido en línea: " + linea, e);
+        }
+
     }
 
     @Override
-public List<Videojuego> cargar() throws GameHubFileException {
-    File fichero = new File(FILE_PATH);
+    public List<Videojuego> cargar() throws GameHubFileException {
+        File fichero = new File(FILE_PATH);
 
-    if (!fichero.exists()) {
-        throw new GameHubFileException("No existe el fichero " + fichero.getAbsolutePath());
-    }
-
-    List<Videojuego> videojuegos = new ArrayList<>();
-
-    try (BufferedReader br = new BufferedReader(
-            new FileReader(fichero, StandardCharsets.UTF_8))) {
-
-        String linea;
-        while ((linea = br.readLine()) != null) {
-            if (!linea.isBlank()) {
-                videojuegos.add(deLinea(linea));
-            }
+        if (!fichero.exists()) {
+            throw new GameHubFileException("No existe el fichero " + fichero.getAbsolutePath());
         }
 
-    } catch (IOException ex) {
-        throw new GameHubFileException("No se pudo leer el fichero " + fichero.getAbsolutePath(), ex);
-    }
+        List<Videojuego> videojuegos = new ArrayList<>();
 
-    return videojuegos;
-}
+        try (BufferedReader br = new BufferedReader(
+                new FileReader(fichero, StandardCharsets.UTF_8))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.isBlank()) {
+                    videojuegos.add(deLinea(linea));
+                }
+            }
+
+        } catch (IOException ex) {
+            throw new GameHubFileException("No se pudo leer el fichero " + fichero.getAbsolutePath(), ex);
+        }
+
+        return videojuegos;
+    }
 
     @Override
     public void guardar(List<Videojuego> videojuegos) throws GameHubFileException {
